@@ -22,11 +22,12 @@ input.onButtonPressed(Button.A, function () {
         basic.showString("_")
     }
 })
-function doSomething () {
-    while (false) {
-        basic.showString("")
-        basic.showString("_")
+function getValue (text: string) {
+    if (!(containsColon(text))) {
+        return "-1"
     }
+    text.split(";")[1]
+return text
 }
 input.onButtonPressed(Button.AB, function () {
     if (inputMode) {
@@ -38,20 +39,29 @@ input.onButtonPressed(Button.AB, function () {
             . . # . .
             . . # . .
             `)
-        radio.sendString(binaryNumber)
+        radio.sendString("" + ID + ";" + binaryNumber)
         inputMode = 0
         binaryNumber = ""
     }
 })
+function getID (text: string) {
+    if (!(containsColon(text))) {
+        return "-1"
+    }
+    text.split(";")[0]
+return text
+}
 radio.onReceivedString(function (receivedString) {
-    initial = 0
-    inputMode = 0
-    recievedString = receivedString
-    basic.clearScreen()
-    basic.showString(receivedString)
-    while (!(inputMode) && !(initial)) {
-        basic.showString(".")
-        basic.showString(" ")
+    if (getID(receivedString) == "Teacher") {
+        initial = 0
+        inputMode = 0
+        recievedString = getValue(receivedString)
+        basic.clearScreen()
+        basic.showString(receivedString)
+        while (!(inputMode) && !(initial)) {
+            basic.showString(".")
+            basic.showString(" ")
+        }
     }
 })
 input.onButtonPressed(Button.B, function () {
@@ -63,10 +73,15 @@ input.onButtonPressed(Button.B, function () {
         basic.showString("_")
     }
 })
+function containsColon (text: string) {
+    return text.includes(";")
+}
 let recievedString = ""
 let binaryNumber = ""
 let inputMode = 0
 let initial = 0
+let ID = 0
+ID = Math.floor(Math.random() * 1000)
 radio.setGroup(190)
 initial = 1
 basic.forever(function () {
