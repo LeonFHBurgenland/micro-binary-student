@@ -1,7 +1,11 @@
 radio.onReceivedNumber(function (receivedNumber) {
-    inputMode = 0
-    recievedNum = receivedNumber
-    basic.showNumber(receivedNumber)
+    if (receivedNumber == 1) {
+        basic.showIcon(IconNames.Yes)
+    } else if (receivedNumber == 0) {
+        basic.showIcon(IconNames.No)
+    } else {
+        basic.showString("?")
+    }
 })
 input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
@@ -24,24 +28,24 @@ function doSomething () {
 }
 input.onButtonPressed(Button.AB, function () {
     basic.clearScreen()
-    basic.showIcon(IconNames.House)
+    basic.showLeds(`
+        . . # . .
+        . # # # .
+        # . # . #
+        . . # . .
+        . . # . .
+        `)
     radio.sendString(binaryNumber)
     inputMode = 0
     binaryNumber = ""
 })
 radio.onReceivedString(function (receivedString) {
-    if (receivedString == "korrekt") {
-        basic.showLeds(`
-            . . # . .
-            . # # # .
-            # . # . #
-            . . # . .
-            . . # . .
-            `)
-    } else if (receivedString == "falsch") {
-        basic.showIcon(IconNames.No)
-    } else {
-        basic.showString("?")
+    inputMode = 0
+    recievedNum = receivedString
+    basic.showString(receivedString)
+    while (!(inputMode)) {
+        basic.showString(".")
+        basic.showString(" ")
     }
 })
 input.onButtonPressed(Button.B, function () {
@@ -55,7 +59,8 @@ input.onButtonPressed(Button.B, function () {
 })
 let binaryNumber = ""
 let inputMode = 0
-let recievedNum = 0
+let recievedNum = ""
+serial.writeLine("READY")
 radio.setGroup(191)
 while (!(recievedNum)) {
     basic.showString("?")
