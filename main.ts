@@ -53,9 +53,9 @@ radio.onReceivedString(function (receivedString) {
     if (getID(receivedString) == "Teacher") {
         initial = 0
         inputMode = 0
-        recievedString = getValue(receivedString)
+        let recievedStringnew = getValue(receivedString)
         basic.clearScreen()
-        basic.showString(receivedString)
+        basic.showString(recievedStringnew)
         while (!(inputMode) && !(initial)) {
             basic.showString(".")
             basic.showString(" ")
