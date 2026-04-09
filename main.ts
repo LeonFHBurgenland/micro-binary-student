@@ -26,8 +26,7 @@ function getValue (text: string) {
     if (!(containsColon(text))) {
         return "-1"
     }
-    text.split(";")[1]
-return text
+    return text.split(";")[1]
 }
 input.onButtonPressed(Button.AB, function () {
     if (inputMode) {
@@ -48,8 +47,7 @@ function getID (text: string) {
     if (!(containsColon(text))) {
         return "-1"
     }
-    text.split(";")[0]
-return text
+    return text.split(";")[0]
 }
 radio.onReceivedString(function (receivedString) {
     if (getID(receivedString) == "Teacher") {
