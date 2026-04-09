@@ -29,6 +29,21 @@ input.onButtonPressed(Button.AB, function () {
     inputMode = 0
     binaryNumber = ""
 })
+radio.onReceivedString(function (receivedString) {
+    if (receivedString == "korrekt") {
+        basic.showLeds(`
+            . . # . .
+            . # # # .
+            # . # . #
+            . . # . .
+            . . # . .
+            `)
+    } else if (receivedString == "falsch") {
+        basic.showIcon(IconNames.No)
+    } else {
+        basic.showString("?")
+    }
+})
 input.onButtonPressed(Button.B, function () {
     basic.clearScreen()
     if (inputMode) {
@@ -42,7 +57,7 @@ let binaryNumber = ""
 let inputMode = 0
 let recievedNum = 0
 radio.setGroup(191)
-basic.showString("STUDENT WAITING")
 while (!(recievedNum)) {
+    basic.showString("?")
     basic.showString("_")
 }
