@@ -6,9 +6,11 @@ radio.onReceivedNumber(function (receivedNumber) {
     } else {
         basic.showString("?")
     }
+    initial = 1
 })
 input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
+    initial = 0
     if (inputMode) {
         binaryNumber = "" + binaryNumber + "0"
         basic.clearScreen()
@@ -27,23 +29,27 @@ function doSomething () {
     }
 }
 input.onButtonPressed(Button.AB, function () {
-    basic.clearScreen()
-    basic.showLeds(`
-        . . # . .
-        . # # # .
-        # . # . #
-        . . # . .
-        . . # . .
-        `)
-    radio.sendString(binaryNumber)
-    inputMode = 0
-    binaryNumber = ""
+    if (inputMode) {
+        basic.clearScreen()
+        basic.showLeds(`
+            . . # . .
+            . # # # .
+            # . # . #
+            . . # . .
+            . . # . .
+            `)
+        radio.sendString(binaryNumber)
+        inputMode = 0
+        binaryNumber = ""
+    }
 })
 radio.onReceivedString(function (receivedString) {
+    initial = 0
     inputMode = 0
-    recievedNum = receivedString
+    recievedString = receivedString
+    basic.clearScreen()
     basic.showString(receivedString)
-    while (!(inputMode)) {
+    while (!(inputMode) && !(initial)) {
         basic.showString(".")
         basic.showString(" ")
     }
@@ -57,12 +63,15 @@ input.onButtonPressed(Button.B, function () {
         basic.showString("_")
     }
 })
+let recievedString = ""
 let binaryNumber = ""
 let inputMode = 0
-let recievedNum = ""
-serial.writeLine("READY")
-radio.setGroup(191)
-while (!(recievedNum)) {
-    basic.showString("?")
-    basic.showString("_")
-}
+let initial = 0
+radio.setGroup(190)
+initial = 1
+basic.forever(function () {
+    while (initial) {
+        basic.showString("?")
+        basic.showString("_")
+    }
+})
