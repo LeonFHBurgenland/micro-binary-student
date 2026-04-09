@@ -1,13 +1,3 @@
-radio.onReceivedNumber(function (receivedNumber) {
-    if (receivedNumber == 1) {
-        basic.showIcon(IconNames.Yes)
-    } else if (receivedNumber == 0) {
-        basic.showIcon(IconNames.No)
-    } else {
-        basic.showString("?")
-    }
-    initial = 1
-})
 input.onButtonPressed(Button.A, function () {
     basic.clearScreen()
     initial = 0
@@ -61,6 +51,18 @@ radio.onReceivedString(function (receivedString) {
             basic.showString(" ")
         }
     }
+    if (getID(receivedString) == ""+ID) {
+        let recievedStringnew = getValue(receivedString)
+
+        if (recievedStringnew == "korrekt") {
+            basic.showIcon(IconNames.Yes)
+        } else if (recievedStringnew == "falsch") {
+            basic.showIcon(IconNames.No)
+        } else {
+            basic.showString("?")
+        }
+        initial = 1
+}
 })
 input.onButtonPressed(Button.B, function () {
     basic.clearScreen()
